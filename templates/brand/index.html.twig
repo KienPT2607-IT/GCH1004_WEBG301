@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<table class="table table-light">
+    <tr>
+        <th colspan="3" class="text text-danger"><h1>Brand List</h1></th>
+        <th>
+            
+        </th>
+    </tr>
+    <tr>
+        <th class="text text-primary">Brand Id</th>
+        <th class="text text-primary">Brand Name</th>
+        <th class="text text-primary">Brand Image</th>
+        <th class="text text-primary">Actions</th>
+    </tr>
+     {% for brand in brand %}
+    <tr>
+        <td class="text text-success">{{ brand.id }}</td>
+        <td class="text text-success">{{ brand.name }}</td>
+        <td>
+            <img src="{{ brand.image }}" width="100" height="120">
+        </td>
+        <td>
+            
+        </td>
+    </tr>
+    {% endfor %}
+{% endblock %}
