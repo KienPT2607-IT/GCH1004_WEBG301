@@ -1,0 +1,33 @@
+{% extends "base.html.twig" %}
+{% block body %}
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<img src="{{product.image}}" alt="">
+			</div>
+			<div class="col">
+				<h1>{{product.name}}</h1>
+				<h4>Price:{{product.price}}USD</h4>
+				<h4>{{product.remain}}</h4>
+				<h5>Brand:
+					{% if product.brand != null %}
+						{{product.brand.name}}
+					{% else %}
+						N/A
+					{% endif %}
+				</h5>
+				<h5>Category:
+					{% if product.category != null %}
+						{{product.category.name}}
+					{% else %}
+						N/A
+					{% endif %}
+				</h5>
+				<br>
+				<a class="btn btn-outline-success" href="#">Add</a>
+				<a class="btn btn-outline-warning" href="{{path('ad_edit_product', {'id':product.id})}}">Edit</a>
+				<a class="btn btn-outline-danger" href="{{path('ad_delete_product', {'id':product.id})}}">Delete</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}

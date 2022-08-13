@@ -4,6 +4,28 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container">
-    </div>
+	<div class="container col-md-8">
+		<table class="table table-light">
+			<tr>
+				<th class="text text-dark">Product Id</th>
+				<th class="text">Product Name</th>
+				<th class="text">Product Image</th>
+				<th class="text">Actions</th>
+			</tr>
+			{% for product in products %}
+				<tr>
+					<td class="text text-success">{{product.id}}</td>
+					<td class="text text-success">{{product.name}}</td>
+					<td class="text text-success">
+						<img src="{{product.image}}" alt="">
+					</td>
+					<td class="text text-success">
+						<a href="{{path('view_product_detail', {'id':product.id})}}">Detail</a>
+						<a href="{{path('ad_edit_product', {'id':product.id})}}">Detail</a>
+						<a href="{{path('ad_delete_product', {'id':product.id})}}">Detail</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
 {% endblock %}
