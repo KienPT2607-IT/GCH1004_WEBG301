@@ -17,29 +17,45 @@
 	</head>
 	<body>
 		{% block navbar %}
-			{# {% if is_granted ('ROLE_PRD_ADMIN') %} #}
-			<nav class="navbar fixed-top navbar-expand-lg bg-light">
+			{# <nav class="navbar fixed-top navbar-expand-lg bg-light">
 				<div class="container-fluid">
-					<a class="navbar-brand" href="#">Admin</a>
+					<a class="navbar-brand" href="#">
+						{% if app.user != null %}
+							{{ app.user.username }}
+						{% endif %}
+					</a>
 					<div class="collapse navbar-collapse" id="navbarNav">
-						<ul class="navbar-nav">
-							<li class="nav-item">
-								<a class="nav-link" href="{{path('ad_view_all_products')}}">Product</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">Brand</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">Category</a>
-							</li>
+						<ul
+							class="navbar-nav">
+							{% if is_granted ('ROLE_PRD_ADMIN') %}
+								<li class="nav-item">
+									<a class="nav-link" href="{{path('ad_view_all_products')}}">Product</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#">Brand</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#">Category</a>
+								</li>
+							{% else if is_granted ('ROLE_ACC_ADMIN')%}
+								<li class="nav-item">
+									<a class="nav-link" href="{{path('ad_view_all_staffs')}}">Staff</a>
+								</li>
+							{% else %}
+								<li class="nav-item">
+									<a class="nav-link" href="{{path('ad_view_all_products')}}">Product</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="#">History</a>
+								</li>
+							{% endif %}
 							<li class="nav-item">
 								<a class="nav-link" href="#">Sign out</a>
 							</li>
 						</ul>
 					</div>
 				</div>
-			</nav>
-			{# {% endif %} #}
+			</nav> #}
 		{% endblock %}
 		{% block body %}{% endblock %}
 	</body>
