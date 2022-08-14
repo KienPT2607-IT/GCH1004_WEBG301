@@ -2,31 +2,93 @@
 {% block body %}
 	<div class="container">
 		<div class="row">
-			<div class="col">
-				<img src="{{product.image}}" alt="">
+			<div class="col-md-4 d-flex align-items-stretch">
+				<img src="{{ product.image }}">
 			</div>
-			<div class="col">
-				<h1>{{product.name}}</h1>
-				<h4>Price:{{product.price}}USD</h4>
-				<h4>{{product.remain}}</h4>
-				<h5>Brand:
-					{% if product.brand != null %}
-						{{product.brand.name}}
-					{% else %}
-						N/A
-					{% endif %}
-				</h5>
-				<h5>Category:
-					{% if product.category != null %}
-						{{product.category.name}}
-					{% else %}
-						N/A
-					{% endif %}
-				</h5>
-				<br>
-				<a class="btn btn-outline-success" href="#">Add</a>
-				<a class="btn btn-outline-warning" href="{{path('ad_edit_product', {'id':product.id})}}">Edit</a>
-				<a class="btn btn-outline-danger" href="{{path('ad_delete_product', {'id':product.id})}}">Delete</a>
+			<div class="col-md-8">
+				<table class="table">
+					<tr>
+						<th colspan="2" class="bg-success text-warning">{{ product.name }}</th>
+					</tr>
+					<tr>
+						<th class="bg-light col-md-3">ID</th>
+						<td class="col-md-9">
+							{{ product.id }}
+						</td>
+					</tr>
+					<tr>
+						<th class="bg-light col-md-3">Price</th>
+						<td class="col-md-9">
+							{{ product.price }}
+						</td>
+					</tr>
+					<tr>
+						<th class="bg-light col-md-3">Remain</th>
+						<td class="col-md-9">
+							{% if product.remain > 0 %}
+								{{ product.remain }}
+							{% else %}
+								Sold Out
+							{% endif %}
+
+						</td>
+					</tr>
+					<tr>
+						<th class="bg-light col-md-3">Brand</th>
+						<td class="col-md-9">
+							{% if product.brand != null %}
+								<a href="">{{ product.brand.name }}</a>
+							{% else %}
+								N/A
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<th class="bg-light col-md-3">Category</th>
+						<td class="col-md-9">
+							{% if product.category != null %}
+								<a href="">{{ product.category.name }}</a>
+							{% else %}
+								N/A
+							{% endif %}
+						</td>
+					</tr>
+					<tr>
+						<th class="bg-light col-md-3">Actions</th>
+						<td>
+							<a data-bs-toggle="modal" data-bs-target="#raisePrdsNumb">
+								<img src="{{asset('images/actions/plus.png')}}" alt="" width="30" height="30">
+							</a>
+							<a href="{{path('ad_edit_product', {'id':product.id})}}">
+								<img src="{{asset('images/actions/edit.png')}}" alt="" width="30" height="30">
+							</a>
+							<a href="{{path('ad_delete_product', {'id':product.id})}}" onclick="return confirm('Delete this product?');">
+								<img src="{{asset('/images/actions/delete.gif')}}" alt="" width="30" height="30">
+							</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="raisePrdsNumb" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Raise Mumber Of Products</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="{{ path('ad_raise_product', {'id':product.id}) }}" method="post">
+						<div class="mb-3">
+							<label for="numberOfProductsRaised" class="form-label">Number of
+								{{product.name}}
+								raised</label>
+							<input type="number" id="numberOfProductsRaised" class="form-control" min="0" name="numb_raised">
+						</div>
+						<button type="submit" class="btn btn-outline-success">Raise</button>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>

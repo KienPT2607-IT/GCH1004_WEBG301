@@ -1,0 +1,12 @@
+{% form_theme product_add_form 'bootstrap_5_layout.html.twig' %}
+{% extends "base.html.twig" %}
+{% block body %}
+	<div class="container">
+		<div class="card p-3 bg-light">
+			{{ form_start (product_add_form) }}
+			{{ form_widget (product_add_form) }}
+			<input class="btn btn-outline-success" type="submit" value="Add">
+			{{ form_end (product_add_form) }}
+		</div>
+	</div>
+{% endblock %}

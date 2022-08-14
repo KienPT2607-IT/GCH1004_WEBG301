@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\ProductEditType;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -18,10 +19,10 @@ class ProductController extends AbstractController
     public function viewAllProduct(ProductRepository $productRepository)
     {
         $products = $productRepository->findAll();
-        // if ($products == null) {
-        //     $this->addFlash('Error', 'Loading products failed!');
-        //     return $this->redirectToRoute();
-        // }
+        if ($products == null) {
+            $this->addFlash('error', 'Loading products failed!');
+            return $this->redirectToRoute('ad_view_all_products');
+        }
         return $this->render(
             'product/index.html.twig',
             [
@@ -34,6 +35,10 @@ class ProductController extends AbstractController
     public function viewProductDetail($id, ProductRepository $productRepository)
     {
         $product = $productRepository->find($id);
+        if ($product == null) {
+            $this->addFlash('error', 'Loading product failed!');
+            return $this->redirectToRoute('ad_view_all_products');
+        }
         return $this->render(
             'product/detail.html.twig',
             [
@@ -47,10 +52,15 @@ class ProductController extends AbstractController
     public function bookDelete($id, ManagerRegistry $managerRegistry)
     {
         $product = $managerRegistry->getRepository(Product::class)->find($id);
+        if ($product == null) {
+            $this->addFlash('error', 'Loading product failed!');
+            return $this->redirectToRoute('ad_view_all_products');
+        }
         $manager = $managerRegistry->getManager();
         $manager->remove($product);
         $manager->flush();
-        $this->addFlash('Success', 'Product Deleted Successfully');
+        $message = $product->getName() . ' Deleted Successfully';
+        $this->addFlash('success', $message);
         return $this->redirectToRoute('ad_view_all_products');
     }
 
@@ -65,7 +75,7 @@ class ProductController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($product);
             $manager->flush();
-            $this->addFlash('Success', 'New Product Added Successfully!');
+            $this->addFlash('success', 'New Product Added Successfully!');
             return $this->redirectToRoute("ad_view_all_products");
         }
         return $this->renderForm(
@@ -81,13 +91,17 @@ class ProductController extends AbstractController
     public function bookEdit($id, Request $request)
     {
         $product = $this->getDoctrine()->getRepository(Product::class)->find($id);
-        $form = $this->createForm(ProductType::class, $product);
+        if ($product == null) {
+            $this->addFlash('error', 'Loading product failed!');
+            return $this->redirectToRoute('ad_view_all_products');
+        }
+        $form = $this->createForm(ProductEditType::class, $product);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($product);
             $manager->flush();
-            $this->addFlash('Success', 'Product Edited Successfully !');
+            $this->addFlash('success', 'Product Edited Successfully !');
             return $this->redirectToRoute("ad_view_all_products");
         }
         return $this->renderForm(
@@ -96,5 +110,28 @@ class ProductController extends AbstractController
                 'product_edit_form' => $form
             ]
         );
+    }
+
+    #[Route('/raise/product/{id}', name: 'ad_raise_product')]
+    public function raiseNumbOfProducts($id, Request $request, ProductRepository $productRepository)
+    {
+        $product = $productRepository->find($id);
+        if ($product == null) {
+            $this->addFlash('error', 'Product not found!');
+            return $this->redirectToRoute('ad_view_all_products');
+        }
+        $numberRaised = $request->get('numb_raised');
+        if ($numberRaised == null) {
+            $message = 'Raise number of ' . $product->getName() . ' failed!';
+            $this->addFlash('error', $message);
+            return $this->redirectToRoute("ad_view_all_products");
+        }
+        $after = $product->getRemain() + $numberRaised;
+        $product->setRemain($after);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($product);
+        $manager->flush();
+        $this->addFlash('success', 'Raised Successfully !');
+        return $this->redirectToRoute("ad_view_all_products");
     }
 }
