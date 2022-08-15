@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Product Admin
+{% endblock %}
+
+{% block body %}
+	<div class="container col-md-8">
+		<table class="table table-light table-hover">
+			<thead>
+				<tr>
+					<th class="text h1 text-center" colspan="3">List of Products</th>
+					<th>
+						<a href="{{ path('ad_add_product') }}">
+							<img src="{{ asset('images/actions/add.png') }}" alt="" >
+						</a>
+					</th>
+				</tr>
+				<tr>
+					<th class="text text-dark">ID</th>
+					<th class="text">Name</th>
+					<th class="text">Image</th>
+					<th class="text">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for product in products %}
+					<tr>
+						<td class="text text-success">{{product.id}}</td>
+						<td class="text text-success">{{product.name}}</td>
+						<td class="text text-success">
+							<img src="{{product.image}}" alt="">
+						</td>
+						<td class="text text-success">
+							<a href="{{path('view_product_detail', {'id':product.id})}}">
+								<img src="{{asset('images/actions/view_detail.png')}}" alt="" width="30" height="30">
+							</a>
+							<a href="{{path('ad_edit_product', {'id':product.id})}}">
+								<img src="{{asset('images/actions/edit.png')}}" alt="" width="30" height="30">
+							</a>
+							<a href="{{path('ad_delete_product', {'id':product.id})}}" onclick="return confirm('Delete this product?');">
+								<img src="{{asset('images/actions/delete.gif')}}" alt="" width="30" height="30">
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
