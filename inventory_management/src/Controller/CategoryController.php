@@ -26,7 +26,7 @@ class CategoryController extends AbstractController
     public function detail($id, CategoryRepository $categoryRepository ){
         $category = $categoryRepository->find($id);
         if ($category == null){
-            $this ->addFlash('warning','Invalid category.');
+            $this ->addFlash('success','Invalid category.');
             return $this->redirectToRoute('index_category');
         }
         return $this->render('category/detail.html.twig', 
@@ -40,12 +40,12 @@ class CategoryController extends AbstractController
     public function delete($id, ManagerRegistry $managerRegistry){
         $category = $managerRegistry->getRepository(Category::class)->find($id);
         if ($category == null){
-            $this ->addFlash('warning','Category not found');
+            $this ->addFlash('error','Category not found');
         }else{
             $manager = $managerRegistry->getManager();
             $manager->remove($category);
             $manager->flush();
-        $this ->addFlash('warning','Delete category successfully');
+        $this ->addFlash('success','Delete category successfully');
         }
         return $this->redirectToRoute('index_category');
     }
@@ -75,7 +75,7 @@ class CategoryController extends AbstractController
         public function edit(Request $request, $id){
             $category = $this->getDoctrine()->getRepository(Category::class)->find($id);
             if ($category == null){
-                $this ->addFlash('warning', 'Category not found');
+                $this ->addFlash('error', 'Category not found');
             }else{
                 $form = $this->createForm(CategoryType::class, $category);
                 $form->handleRequest($request);
@@ -93,5 +93,37 @@ class CategoryController extends AbstractController
                     );
                     
             }
+            }
+
+            #[Route('/desc', name: 'category_desc')]
+            public function sortDesc(CategoryRepository $categoryRepository) {
+      
+            $category = $categoryRepository->sortCategoryDesc();
+            return $this->render("category/index.html.twig",
+                            [
+                                'category' => $category
+                            ]);
+   }
+
+   #[Route('/arc', name: 'category_arc')]
+   public function sortArc(CategoryRepository $categoryRepository) {
+
+   $category = $categoryRepository->sortCategoryArc();
+   return $this->render("category/index.html.twig",
+                   [
+                       'category' => $category
+                   ]);
+}
+
+            #[Route('/search', name:'search_category')]
+            public function search(Request $request, CategoryRepository $categoryRepository){
+                $keyword = $request->get('name');
+                $categories = $categoryRepository->searchCategoryByTitle($keyword);
+                return $this->render (
+                    'category/index.html.twig',
+                    [
+                        'categories' => $categories
+                    ]
+                    );
             }
         }

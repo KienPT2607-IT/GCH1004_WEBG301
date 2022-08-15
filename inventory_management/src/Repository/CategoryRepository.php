@@ -50,29 +50,36 @@ class CategoryRepository extends ServiceEntityRepository
     // /**
     //  * @return Category[] Returns an array of Category objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function searchCategoryByTitle($keyword)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('category')
+        ->andWhere('category.name LIKE :key')
+        ->setParameter('key', '%' . $keyword . '%')
+        ->orderBy('category.name', 'ASC')
+        ->setMaxResults(5)
+        ->getQuery()
+        ->getResult();
+    }
+    
+    public function sortCategoryAsc()
+    {
+        return $this->createQueryBuilder('category')
+            ->orderBy('category.id', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Category
+    /**
+     * @return category[]  
+     */
+    public function sortCategoryDesc()
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->createQueryBuilder('category')
+              ->orderBy('category.id', 'DESC')
+              ->getQuery()
+              ->getResult()
+          ;
     }
-    */
 }
