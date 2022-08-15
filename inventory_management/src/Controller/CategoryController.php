@@ -93,17 +93,6 @@ class CategoryController extends AbstractController
                     );
                     
             }
-            }
-
-            // #[Route('/search', name:'search_category')]
-            // public function search(Request $request, CategoryRepository $categoryRepository){
-            //     $key = $request->get('key');
-            //     $categories = $categoryRepository->searchCategoryByTitle($key);
-            //     return $this->render (
-            //         'category/index.html.twig',
-            //         [
-            //             'categories' => $categories
-            //         ]
-            //         );
-            // }
         }
+
+}
