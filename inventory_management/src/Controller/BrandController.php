@@ -67,12 +67,15 @@ class BrandController extends AbstractController
    public function brandDelete ($id, ManagerRegistry $managerRegistry) {
      $brand = $managerRegistry->getRepository(Brand::class)-> find($id);
      if($brand == null){
-        $this->addFlash('Warning','Brand not found');
+        $this->addFlash('error','Brand not found');
+     }else if (count($brand->getProducts()) >= 1){ //check xem genre này có ràng buộc với book hay không trước khi xóa
+            //nếu có tối thiểu 1 book thì hiển thị lỗi và không cho xóa  
+         $this->addFlash('error', 'CAN NOT DELETE THIS BRAND');
      }else{
         $manager = $managerRegistry->getManager();
         $manager->remove($brand);
         $manager->flush();
-        $this -> addFlash('Success','Brand deleted successfully');
+        $this -> addFlash('success','Brand deleted successfully');
      }
      return $this -> redirectToRoute('brand_index');
    }
@@ -98,4 +101,21 @@ class BrandController extends AbstractController
     ]);
    }
     }
+
+
+   #[Route('/search', name: 'search_brand_name')]
+   public function searchBrand(BrandRepository $brandRepository, Request $request)
+   {
+      $key = $request->get('name');
+      $brand = $brandRepository->searchBrandByName($key);
+        // if ($brands == null) {
+        //    $this->addFlash('warning', "No brand found");
+        // }
+      return $this->render(
+         'brand/index.html.twig',
+         [
+            'brand' => $brand
+         ]
+      );
+   }
 }

@@ -1,5 +1,13 @@
 {% extends "base.html.twig" %}
+{% block title %}
+            Brand detail 
+{% endblock %}
 {% block body %}
+<style>
+body {
+  background-image: url('https://img.freepik.com/free-vector/abstract-geometric-models-background_52683-25234.jpg?w=2000');
+}
+</style>
 <div class="container span" style="border: 2px solid black">
 
 	<div class="container mt-3 mb-3">
@@ -24,7 +32,7 @@
                             <td>
                                 {% for product in brand.products %}
                              <li>
-                                <a href="{{ path('view_product_detail', {'id':product.id })}}">
+                                <a class="text-danger"href="{{ path('view_product_detail', {'id':product.id })}}">
                                     {{ product.name }}
                                 </a>
                              </li>

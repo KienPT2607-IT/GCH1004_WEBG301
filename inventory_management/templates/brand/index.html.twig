@@ -1,9 +1,21 @@
 {% extends 'base.html.twig' %}
 
-			{% block title %}Brand List 
+			{% block title %}
+            Brand List 
 			{% endblock %}
 
 {% block body %}
+<style>
+body {
+  background-image: url('https://img.freepik.com/free-vector/abstract-geometric-models-background_52683-25234.jpg?w=2000');
+}
+</style>
+<div class="col d-flex justify-content-center mt-3 mb-3 "> 
+        <form action="{{ path('search_brand_name') }}" method="post">
+			<input type="search" name="name" id="">
+			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+		</form>
+</div>
 <div class="container span" style="border: 2px solid black">
 <table class="table table-light span12 mt-3" style="border: 2px solid black">
     <tr>
@@ -34,7 +46,8 @@
             <a href="{{ path('brand_edit', {'id' : brand.id }) }}">
                 <img src="{{ asset('images/actions/edit.png')}}" width="50" height="50">
             </a>
-            <a href="{{ path('brand_delete', {'id' : brand.id }) }}">
+            <a href="{{ path('brand_delete', {'id' : brand.id }) }}"
+             onclick="return confirm('Are you sure to delete this brand ?');">
                 <img src="{{ asset('images/actions/delete.gif')}}" width="50" height="50">
             </a>
         </td>
