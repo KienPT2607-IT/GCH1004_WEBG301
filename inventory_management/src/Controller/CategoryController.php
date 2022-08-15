@@ -8,11 +8,13 @@ use App\Repository\CategoryRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/category')]
+#[Route('/category/admin')]
 class CategoryController extends AbstractController
 {
+    #[IsGranted("ROLE_PRD_ADMIN")]
     #[Route('/index', name: 'index_category')]
     public function index()
     {
@@ -21,7 +23,7 @@ class CategoryController extends AbstractController
         'category' => $category
         ]);
     }
-
+    #[IsGranted("ROLE_PRD_ADMIN")]
     #[Route('/detail/{id}', name: 'detail_category')]
     public function detail($id, CategoryRepository $categoryRepository ){
         $category = $categoryRepository->find($id);
@@ -35,7 +37,7 @@ class CategoryController extends AbstractController
             ]);
 
     }
-
+    #[IsGranted("ROLE_PRD_ADMIN")]
     #[Route('/delete/{id}', name: 'delete_category')]
     public function delete($id, ManagerRegistry $managerRegistry){
         $category = $managerRegistry->getRepository(Category::class)->find($id);
@@ -49,7 +51,7 @@ class CategoryController extends AbstractController
         }
         return $this->redirectToRoute('index_category');
     }
-
+    #[IsGranted("ROLE_PRD_ADMIN")]
     #[Route('/add',name:'add_category')]
     public function add(Request $request){
 
@@ -70,7 +72,7 @@ class CategoryController extends AbstractController
         );
         }
         
-        
+        #[IsGranted("ROLE_PRD_ADMIN")]
         #[Route('/edit{id}',name:'edit_category')]
         public function edit(Request $request, $id){
             $category = $this->getDoctrine()->getRepository(Category::class)->find($id);
@@ -94,7 +96,7 @@ class CategoryController extends AbstractController
                     
             }
         }
-
+        #[IsGranted("ROLE_PRD_ADMIN")]
         #[Route('/search', name:'search_category')]
         public function search(Request $request, CategoryRepository $categoryRepository){
         $key = $request->get('name');
