@@ -16,9 +16,9 @@ class CategoryController extends AbstractController
     #[Route('/index', name: 'index_category')]
     public function index()
     {
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $category = $this->getDoctrine()->getRepository(Category::class)->findAll();
         return $this->render('category/index.html.twig', [
-        'categories' => $categories
+        'category' => $category
         ]);
     }
 
@@ -93,6 +93,18 @@ class CategoryController extends AbstractController
                     );
                     
             }
-            }
+        }
+
+        #[Route('/search', name:'search_category')]
+        public function search(Request $request, CategoryRepository $categoryRepository){
+        $key = $request->get('name');
+        $category = $categoryRepository->searchCategoryByTitle($key);
+        return $this->render (
+            'category/index.html.twig',
+            [
+                'category' => $category
+            ]
+            );
+    }
 
 }
