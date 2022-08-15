@@ -79,12 +79,13 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="{{ path('ad_raise_product', {'id':product.id}) }}" method="post">
+					<form action="{{ path('ad_raise_product')}}" method="post">
 						<div class="mb-3">
 							<label for="numberOfProductsRaised" class="form-label">Number of
 								{{product.name}}
 								raised</label>
 							<input type="number" id="numberOfProductsRaised" class="form-control" min="0" name="numb_raised">
+							<input type="hidden" name="id" value="{{ product.id }}">
 						</div>
 						<button type="submit" class="btn btn-outline-success">Raise</button>
 					</form>
