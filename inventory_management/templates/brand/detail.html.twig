@@ -32,7 +32,7 @@ body {
                             <td>
                                 {% for product in brand.products %}
                              <li>
-                                <a class="text-danger"href="{{ path('view_product_detail', {'id':product.id })}}">
+                                <a class="text-danger"href="{{ path('ad_view_all_products', {'id':product.id })}}">
                                     {{ product.name }}
                                 </a>
                              </li>

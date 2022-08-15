@@ -9,29 +9,31 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/brand')]
 class BrandController extends AbstractController
 {
-    #[Route('/index', name: 'brand_index')]
-   public function genreIndex () {
+    #[IsGranted("ROLE_PRD_ADMIN")]
+    #[Route('/admin/index', name: 'brand_index')]
+   public function brandIndex () {
       $brand = $this->getDoctrine()->getRepository(Brand::class)->findAll();
       return $this->render('brand/index.html.twig',
         [
             'brand' => $brand
         ]);
    } 
-   #[Route('/list', name: 'brand_list')]
-   public function genreList() {
+   #[Route('/admin/list', name: 'brand_list')]
+   public function brandList() {
       $brands = $this->getDoctrine()->getRepository(Brand::class)->findAll();
       return $this->render('brand/list.html.twig',
         [
             'brands' => $brands
         ]);
    } 
-   
-   #[Route('/add', name: 'brand_add')]
+   #[IsGranted("ROLE_PRD_ADMIN")]
+   #[Route('/admin/add', name: 'brand_add')]
    public function brandAdd(Request $request) {
     $brand = new Brand();
     $form = $this->createForm(BrandType::class, $brand);
@@ -49,21 +51,21 @@ class BrandController extends AbstractController
     ]);
    }
 
-
-   #[Route('/detail/{id}', name: 'brand_detail')]
-   public function genreDetail ($id, BrandRepository $brandRepository) {
+   #[IsGranted("ROLE_PRD_ADMIN")]
+   #[Route('/admin/detail/{id}', name: 'brand_detail')]
+   public function brandDetail ($id, BrandRepository $brandRepository) {
       $brand = $brandRepository->find($id);
       if ($brand == null) {
          $this->addFlash('Warning','Invalid genre id !');
-         return $this->redirectToRoute('genre_index');
+         return $this->redirectToRoute('brand_index');
       }
       return $this->render('brand/detail.html.twig',
         [
             'brand' => $brand
         ]);   
    }
-
-   #[Route('/delete/{id}', name: 'brand_delete')]
+   #[IsGranted("ROLE_PRD_ADMIN")]
+   #[Route('/admin/delete/{id}', name: 'brand_delete')]
    public function brandDelete ($id, ManagerRegistry $managerRegistry) {
      $brand = $managerRegistry->getRepository(Brand::class)-> find($id);
      if($brand == null){
@@ -79,8 +81,8 @@ class BrandController extends AbstractController
      }
      return $this -> redirectToRoute('brand_index');
    }
-
-   #[Route('/edit/{id}', name: 'brand_edit')]
+   #[IsGranted("ROLE_PRD_ADMIN")]
+   #[Route('/admin/edit/{id}', name: 'brand_edit')]
    public function brandEdit ($id, Request $request){
     $brand = $this->getDoctrine()->getRepository(Brand::class)->find($id);
     if($brand ==null){
