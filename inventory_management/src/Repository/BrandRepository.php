@@ -46,27 +46,4 @@ class BrandRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-
-    public function searchBrandByName($keyword) 
-    {
-        return $this->createQueryBuilder('brand')
-            ->andWhere('brand.name LIKE :value')
-            ->setParameter('value', '%' . $keyword . '%')
-            ->orderBy('brand.id','DESC')
-            ->setMaxResults(5)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    
-    public function findOneBySomeField($value): ?Brand
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
 }
