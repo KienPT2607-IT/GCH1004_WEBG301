@@ -30,7 +30,6 @@
 							{% else %}
 								Sold Out
 							{% endif %}
-
 						</td>
 					</tr>
 					<tr>
@@ -56,9 +55,11 @@
 					<tr>
 						<th class="bg-light col-md-3">Actions</th>
 						<td>
-							<a data-bs-toggle="modal" data-bs-target="#raisePrdsNumb">
-								<img src="{{asset('images/actions/minus.png')}}" alt="" width="30" height="30">
-							</a>
+							{% if product.remain > 0 %}
+								<a data-bs-toggle="modal" data-bs-target="#raisePrdsNumb">
+									<img src="{{asset('images/actions/minus.png')}}" alt="" width="30" height="30">
+								</a>
+							{% endif %}
 						</td>
 					</tr>
 				</table>
@@ -73,12 +74,13 @@
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<form action="{{ path('staff_take_product', {'id':product.id}) }}" method="post">
+					<form action="{{ path('staff_take_product') }}" method="post">
 						<div class="mb-3">
 							<label for="numberOfProductsTaken" class="form-label">Number of
 								{{product.name}}
 								to be taken</label>
 							<input type="number" id="numberOfProductsTaken" class="form-control" min="1" max="{{ product.remain }}" name="numb_taken">
+							<input type="hidden" name="id" value="{{ product.id }}">
 						</div>
 						<button type="submit" class="btn btn-outline-success">Check out</button>
 					</form>

@@ -149,22 +149,16 @@ class ProductController extends AbstractController
     }
 
     #[IsGranted("ROLE_PRD_ADMIN")]
-    #[Route('/admin/raise/product/{id}', name: 'ad_raise_product')]
-    public function raiseNumbOfProducts($id, Request $request, ProductRepository $productRepository)
+    #[Route('/admin/raise/product', name: 'ad_raise_product')]
+    public function raiseNumbOfProducts(Request $request, ProductRepository $productRepository)
     {
-        $product = $productRepository->find($id);
-        if ($product == null) {
-            $this->addFlash('error', 'Product not found!');
-            return $this->redirectToRoute('ad_view_all_products');
-        }
+        $product = $productRepository->find($request->get('id'));
         $numberRaised = $request->get('numb_raised');
         if ($numberRaised == null) {
-            $message = 'Raise number of ' . $product->getName() . ' failed!';
-            $this->addFlash('error', $message);
+            $this->addFlash('error', 'Raise number of ' . $product->getName() . ' failed!');
             return $this->redirectToRoute("ad_view_all_products");
         }
-        $after = $product->getRemain() + $numberRaised;
-        $product->setRemain($after);
+        $product->setRemain($product->getRemain() + $numberRaised);
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($product);
         $manager->flush();
@@ -173,7 +167,7 @@ class ProductController extends AbstractController
     }
 
     #[IsGranted("ROLE_STAFF")]
-    #[Route('/staff/take/product/{id}', name: 'staff_take_product')]
+    #[Route('/staff/take/product', name: 'staff_take_product')]
     public function takeNumbOfProducts($id, Request $request, ProductRepository $productRepository)
     {
         $product = $productRepository->find($id);
@@ -183,12 +177,10 @@ class ProductController extends AbstractController
         }
         $numberTaken = $request->get('numb_taken');
         if ($numberTaken == null) {
-            $message = 'Take ' . $product->getName() . ' failed!';
-            $this->addFlash('error', $message);
+            $this->addFlash('error', 'Take ' . $product->getName() . ' failed!');
             return $this->redirectToRoute("staff_view_all_products");
         }
-        $after = $product->getRemain() - $numberTaken;
-        $product->setRemain($after);
+        $product->setRemain($product->getRemain() - $numberTaken);
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($product);
         $manager->flush();
