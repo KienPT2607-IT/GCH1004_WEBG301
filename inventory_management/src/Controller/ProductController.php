@@ -168,9 +168,9 @@ class ProductController extends AbstractController
 
     #[IsGranted("ROLE_STAFF")]
     #[Route('/staff/take/product', name: 'staff_take_product')]
-    public function takeNumbOfProducts($id, Request $request, ProductRepository $productRepository)
+    public function takeNumbOfProducts(Request $request, ProductRepository $productRepository)
     {
-        $product = $productRepository->find($id);
+        $product = $productRepository->find($request->get('id'));
         if ($product == null) {
             $this->addFlash('error', 'Product not found!');
             return $this->redirectToRoute('staff_view_all_products');
@@ -186,5 +186,91 @@ class ProductController extends AbstractController
         $manager->flush();
         $this->addFlash('success', 'Taken Successfully !');
         return $this->redirectToRoute("staff_view_all_products");
+    }
+
+    #[IsGranted("ROLE_PRD_ADMIN")]
+    #[Route('/admin/seach', name: 'ad_search_product')]
+    public function adSearchForProduct(Request $request, ProductRepository $productRepository)
+    {
+        $key = $request->get('keyword');
+        $products = $productRepository->searchProductByName($key);
+        if ($products == null) {
+            $this->addFlash('error', "No book found");
+        }
+        return $this->render(
+            'product/index.html.twig',
+            [
+                'products' => $products
+            ]
+        );
+    }
+
+    #[IsGranted("ROLE_STAFF")]
+    #[Route('/staff/seach', name: 'staff_search_product')]
+    public function staffSearchForProduct(Request $request, ProductRepository $productRepository)
+    {
+        $key = $request->get('keyword');
+        $products = $productRepository->searchProductByName($key);
+        if ($products == null) {
+            $this->addFlash('error', "No book found");
+        }
+        return $this->render(
+            'product/staff_index.html.twig',
+            [
+                'products' => $products
+            ]
+        );
+    }
+
+    #[IsGranted('ROLE_PRD_ADMIN')]
+    #[Route('/admin/product/asc', name: 'ad_sort_product_id_ascending')]
+    public function adSortProductIdAsc(ProductRepository $productRepository)
+    {
+        $products = $productRepository->sortProductByIdAsc();
+        return $this->render(
+            'product/index.html.twig',
+            [
+                'products' => $products
+            ]
+        );
+    }
+
+    #[IsGranted('ROLE_PRD_ADMIN')]
+    #[Route('/admin/product/desc', name: 'ad_sort_product_id_descending')]
+    public function adSortProductIdDesc(ProductRepository $productRepository)
+    {
+        $products = $productRepository->sortProductByIdDesc();
+        return $this->render(
+            'product/index.html.twig',
+            [
+                'products' => $products
+            ]
+        );
+    }
+
+    #[IsGranted('ROLE_STAFF')]
+    #[Route('/staff/product/asc', name: 'staff_sort_product_id_ascending')]
+    public function staffSortProductIdAsc(ProductRepository $productRepository)
+    {
+        $products = $productRepository->sortProductByIdAsc();
+        return $this->render(
+            'product/staff_index.html.twig',
+            [
+                'products' => $products
+            ]
+        );
+    }
+
+    #[IsGranted('ROLE_STAFF')]
+    #[Route('/staff/product/desc', name: 'staff_sort_product_id_descending')]
+    public function staffSortProductIdDesc(ProductRepository $productRepository)
+    {
+        $products = $productRepository->sortProductByIdDesc();
+        return $this->render(
+            'product/staff_index.html.twig',
+            [
+                'products' => $products
+            ]
+        );
     }
 }

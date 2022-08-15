@@ -13,23 +13,28 @@ class BrandType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class,
-            [
-                'required' => true,
-                'label' => 'Name',
-                'attr' =>[
-                    'maxlength' => 255,
+            ->add(
+                'name',
+                TextType::class,
+                [
+                    'required' => true,
+                    'label' => 'Name',
+                    'attr' => [
+                        'maxlength' => 255,
+                    ]
                 ]
-            ])
-            ->add('image', TextType::class,
-            [
-                'required' => true,
-                'label' => 'Image',
-                'attr' =>[
-                    'maxlength' => 255,
+            )
+            ->add(
+                'image',
+                TextType::class,
+                [
+                    'required' => true,
+                    'label' => 'Image',
+                    'attr' => [
+                        'maxlength' => 255,
+                    ]
                 ]
-            ])
-        ;
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver): void

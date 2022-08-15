@@ -2,22 +2,22 @@
 
 {% extends "base.html.twig" %}
 {% block title %}
-            Brand Add 
+	Brand Add
 {% endblock %}
 {% block body %}
-<style>
-body {
-  background-image: url('https://img.freepik.com/free-vector/abstract-geometric-models-background_52683-25234.jpg?w=2000');
-}
-</style>
-<div class="container col-md-6 text-center mt-3">
-    <h3 class="alert alert-primary mb-3">Add New Brand</h3>
-    <div class="cart p-3 bg-light">
-    {{form_start(brandForm)}}
-    {{form_widget(brandForm)}}
-    <input class="btn btn-success" type="submit" value="Add">
+	<style>
+		body {
+			background-image: url('https://img.freepik.com/free-vector/abstract-geometric-models-background_52683-25234.jpg?w=2000');
+		}
+	</style>
+	<div class="container col-md-6 text-center mt-3">
+		<h3 class="alert alert-primary mb-3">Add New Brand</h3>
+		<div class="cart p-3 bg-light">
+			{{form_start(brandForm)}}
+			{{form_widget(brandForm)}}
+			<input class="btn btn-success" type="submit" value="Add">
 
-    {{form_end(brandForm)}}
-    </div>
-</div>
+			{{form_end(brandForm)}}
+		</div>
+	</div>
 {% endblock %}

@@ -31,11 +31,13 @@ class AccountFixtures extends Fixture
         $manager->persist($account);
 
         // Staff
-        $account = new Account;
-        $account->setUsername("staff");
-        $account->setRoles(['ROLE_STAFF']);
-        $account->setPassword($this->hasher->hashPassword($account, "123456"));
-        $manager->persist($account);
+        for ($i=0; $i < 3; $i++) { 
+            $account = new Account;
+            $account->setUsername("staff $i");
+            $account->setRoles(['ROLE_STAFF']);
+            $account->setPassword($this->hasher->hashPassword($account, "123456"));
+            $manager->persist($account);
+        }
 
         $manager->flush();
     }

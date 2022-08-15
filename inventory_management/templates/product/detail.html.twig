@@ -37,7 +37,7 @@
 						<th class="bg-light col-md-3">Brand</th>
 						<td class="col-md-9">
 							{% if product.brand != null %}
-								<a href="">{{ product.brand.name }}</a>
+								<a href="{{path('brand_detail', {'id':product.brand.id})}}">{{ product.brand.name }}</a>
 							{% else %}
 								N/A
 							{% endif %}
@@ -47,7 +47,7 @@
 						<th class="bg-light col-md-3">Category</th>
 						<td class="col-md-9">
 							{% if product.category != null %}
-								<a href="">{{ product.category.name }}</a>
+								<a href="{{path('detail_category', {'id':product.category.id})}}">{{ product.category.name }}</a>
 							{% else %}
 								N/A
 							{% endif %}

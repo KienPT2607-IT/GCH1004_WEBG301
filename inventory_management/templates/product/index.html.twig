@@ -5,7 +5,31 @@
 {% endblock %}
 
 {% block body %}
-	<div class="container col-md-8">
+	<div class="container">
+		<div class="row mb-2">
+			<div class="col">
+				<div class="row">
+					<div class="col-7">
+						<select class="form-control" onchange="window.location.href=this.value">
+							<option>Select one</option>
+							<option value="{{ path('ad_sort_product_id_ascending')}}">ID Ascending</option>
+							<option value="{{ path('ad_sort_product_id_descending')}}">ID Descending</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="row">
+					<div class="col">
+						<div class="form-group">
+							<form action="{{ path('ad_search_product')}}" method="post">
+								<input class="form-control" type="search" name="keyword" placeholder="Search Book">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<table class="table table-light table-hover">
 			<thead>
 				<tr>
