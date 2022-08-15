@@ -17,8 +17,8 @@
 		{% endblock %}
 	</head>
 	<body>
-		{# {% block navbar %}
-			<nav class="navbar fixed-top navbar-expand-lg bg-light">
+		{% block navbar %}
+			<nav class="navbar navbar-expand-lg bg-light mb-3">
 				<div class="container-fluid">
 					<a class="navbar-brand" href="#">
 						{% if app.user != null %}
@@ -37,37 +37,35 @@
 								<li class="nav-item">
 									<a class="nav-link" href="#">Category</a>
 								</li>
-							{% else if is_granted ('ROLE_ACC_ADMIN')%}
+							{% endif %}
+							{% if is_granted ('ROLE_ACC_ADMIN')%}
 								<li class="nav-item">
 									<a class="nav-link" href="{{path('ad_view_all_staffs')}}">Staff</a>
 								</li>
-							{% else %}
+							{% endif %}
+							{% if is_granted ('ROLE_STAFF') %}
 								<li class="nav-item">
-									<a class="nav-link" href="{{path('ad_view_all_products')}}">Product</a>
+									<a class="nav-link" href="{{path('staff_view_all_products')}}">Product</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" href="#">History</a>
 								</li>
 							{% endif %}
 							<li class="nav-item">
-								<a class="nav-link" href="#">Sign out</a>
+								<a class="nav-link" href="{{ path('app_logout') }}">Log out</a>
 							</li>
 						</ul>
 					</div>
 				</div>
-			</nav>
-		{% endblock %}
-		#}
-		{% block message %}
-			<div class="container">
-				{% for message in app.session.flashBag.get('error') %}
-					<p class="alert alert-danger">{{ message }}</p>
-				{% endfor %}
-				{% for message in app.session.flashBag.get('success') %}
-					<p class="alert alert-success">{{ message }}</p>
-				{% endfor %}
-			</div>
-		{% endblock %}
-		{% block body %}{% endblock %}
-	</body>
-</html>
+			</body>
+		</body>
+	</html>
+</nav>{% endblock %}{% block message %}
+<div class="container">
+	{% for message in app.session.flashBag.get('error') %}
+		<p class="alert alert-danger">{{ message }}</p>
+	{% endfor %}
+	{% for message in app.session.flashBag.get('success') %}
+		<p class="alert alert-success">{{ message }}</p>
+	{% endfor %}
+</div>{% endblock %}{% block body %}{% endblock %}{% block footer %}{% endblock %}</body></html>
