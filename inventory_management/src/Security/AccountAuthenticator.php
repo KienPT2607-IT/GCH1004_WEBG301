@@ -54,7 +54,7 @@ class AccountAuthenticator extends AbstractLoginFormAuthenticator
         if (in_array('ROLE_PRD_ADMIN', $account->getRoles(), true)) {
             return new RedirectResponse($this->urlGenerator->generate('ad_view_all_products'));
         } elseif (in_array('ROLE_ACC_ADMIN', $account->getRoles(), true)) {
-            return new RedirectResponse($this->urlGenerator->generate('ad_view_all_accounts'));
+            return new RedirectResponse($this->urlGenerator->generate('ad_view_all_staffs'));
         } else {
             return new RedirectResponse($this->urlGenerator->generate('staff_view_all_products'));
         }
