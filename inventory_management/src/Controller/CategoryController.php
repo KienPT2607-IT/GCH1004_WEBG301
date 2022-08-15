@@ -94,4 +94,36 @@ class CategoryController extends AbstractController
                     
             }
             }
+
+            #[Route('/desc', name: 'category_desc')]
+            public function sortDesc(CategoryRepository $categoryRepository) {
+      
+            $category = $categoryRepository->sortCategoryDesc();
+            return $this->render("category/index.html.twig",
+                            [
+                                'category' => $category
+                            ]);
+   }
+
+   #[Route('/arc', name: 'category_arc')]
+   public function sortArc(CategoryRepository $categoryRepository) {
+
+   $category = $categoryRepository->sortCategoryArc();
+   return $this->render("category/index.html.twig",
+                   [
+                       'category' => $category
+                   ]);
+}
+
+            #[Route('/search', name:'search_category')]
+            public function search(Request $request, CategoryRepository $categoryRepository){
+                $keyword = $request->get('name');
+                $categories = $categoryRepository->searchCategoryByTitle($keyword);
+                return $this->render (
+                    'category/index.html.twig',
+                    [
+                        'categories' => $categories
+                    ]
+                    );
+            }
         }
