@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    {# {% block css %} #}
+    <link rel="stylesheet" href="style.css">
+    {# {% endblock %} #}
+        <title>{% block title %} Online Book Store {% endblock %}</title>
+        {# Run `composer require symfony/webpack-encore-bundle`
+        and uncomment the following Encore helpers to start using Symfony UX #}
+        {% block stylesheets %}
+            {# !-- CSS only --> #}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+        {% endblock %}
+        
+        {% block javascripts %}
+            <!-- JavaScript Bundle with Popper -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>        {% endblock %}
+    </head>
+    <body>
+        {% block header %}
+        <div class= "container mt-3 mb-4">
+                    <ul class="alert alert-success text-center nav-item h2">
+        {# <li class=""> #}
+                    <a class="nav-link" href="{{ path('index_category')}}">category</a>
+                {# </li> #}
+        </ul>
+        </div>
+          
+        {% endblock %}
+        
+        {% block flash %}
+        <div class="container col-md-5 text-center mt-3 mb-3">
+            {% for flash in app.session.flashBag.get('warning') %}
+                <p class="alert alert-danger">{{ flash }}</p>
+            {% endfor %}
+            {% for flash in app.session.flashBag.get('success') %}
+                <p class="alert alert-success">{{ flash }}</p>
+            {% endfor %}
+        </div>
+        {% endblock %}
+
+        {% block body %}{% endblock %}
+
+        {% block footer %}
+        {# <link rel="stylesheet" href="{{asset('css/style.css')}}"> #}
+          {# <link rel="stylesheet" href="templates/style.css"> #}
+           <div class="container mt-3 mb-3"> 
+  	 	<div class="row ">
+  	 		
+  	 		<div class="footer-col">
+  	 			<h4>online shop</h4>
+  	 			<ul>
+  	 				<li><a href="{{ path('search_category' ) }}">Hoodie</a></li>
+  	 				<li><a href="{{ path('search_category' )}}">Shirt</a></li>
+  	 				<li><a href="#">T-Shirt</a></li>
+  	 				<li><a href="#">Dress</a></li>
+  	 			</ul>
+  	 		</div>
+  	 		<div class="footer-col">
+  	 			<h4>follow us</h4>
+  	 			<div class="social-links">
+  	 				<li><a href="https://www.facebook.com/pmt2605">facebook Truong</a>  </li>
+  	 				<li><a href="https://www.facebook.com/ndm010502/">facebook Minh</a></li>
+  	 				<li><a href="https://www.facebook.com/kien2607.it.dev">facebook Kien</a></li>
+  	 				
+  	 			</div>
+  	 		</div>
+  	 	</div>
+  	 </div>
+
+        {% endblock %}
+    </body>
+</html>

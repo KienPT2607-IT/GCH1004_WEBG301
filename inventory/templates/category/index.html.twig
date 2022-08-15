@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container col-md-8 text-center mt-3">
+<table class="table table-light">
+    <tr>
+        <th colspan="3" class="text text-danger"><h1>category List</h1></th>
+        <th>
+            <a href="{{ path('add_category') }}">
+                <img src={{ asset('images/add.png') }} width="50" height="50">
+            </a>
+        </th>
+    </tr>
+    
+    <div class="row">
+        <div class="col-5">
+            <h6 class="text text-success">Search</h6>
+        </div>
+            <div class="col-7">
+                <div class="form-group">
+                    <form action="{{ path('search_category')}}" method="post">
+                        <input class="form-control" type="search" name="keyword" placeholder="Enter category title">
+                    </form>
+                </div>
+            </div>
+    </div>
+
+    <tr>
+        <th class="text text-primary">Id</th>
+        <th class="text text-primary">Title</th>
+        <th class="text text-primary">Image</th>
+        <th class="text text-primary">Actions</th>
+    </tr>
+    {% for category in categories %}
+        
+    <tr>
+        <td class="text text-success">{{ category.id }}</td>
+        <td class="text text-success">{{ category.tit }}</td>
+        <td>
+           <a href="{{ path('detail_category', {'id' : category.id }) }}">
+                <img src="{{ category.image }}" width="100" height="120">
+           </a>
+        </td>
+        <td>
+            <a href="{{ path('detail_category', {'id' : category.id }) }}">
+                <img src="{{ asset('images/detail.png')}}" width="50" height="50">
+            </a>
+            <a href="{{ path('edit_category', {'id' : category.id }) }}">
+                <img src="{{ asset('images/edit.png')}}" width="50" height="50">
+            </a>
+              <a href="{{ path('delete_category', {'id' : category.id }) }}"
+            onclick="return confirm('Are you sure to delete ?');"
+            >
+                <img src="{{ asset('images/delete.png')}}" width="50" height="50">
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+    
+</div>
+
+{% endblock %}
