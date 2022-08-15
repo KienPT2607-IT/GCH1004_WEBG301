@@ -1,0 +1,23 @@
+{% form_theme brandForm 'bootstrap_5_layout.html.twig' %}
+
+{% extends "base.html.twig" %}
+{% block title %}
+            Brand Edit 
+{% endblock %}
+{% block body %}
+<style>
+body {
+  background-image: url('https://img.freepik.com/free-vector/abstract-geometric-models-background_52683-25234.jpg?w=2000');
+}
+</style>
+<div class="container col-md-6 text-center mt-3">
+    <h3 class="alert alert-primary mb-3">Edit Brand</h3>
+    <div class="cart p-3 bg-light">
+    {{form_start(brandForm)}}
+    {{form_widget(brandForm)}}
+    <input class="btn btn-success" type="submit" value="Edit">
+
+    {{form_end(brandForm)}}
+    </div>
+</div>
+{% endblock %}

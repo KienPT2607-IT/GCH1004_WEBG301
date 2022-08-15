@@ -1,0 +1,51 @@
+{% extends "base.html.twig" %}
+{% block title %}
+            Brand detail 
+{% endblock %}
+{% block body %}
+<style>
+body {
+  background-image: url('https://img.freepik.com/free-vector/abstract-geometric-models-background_52683-25234.jpg?w=2000');
+}
+</style>
+<div class="container span" style="border: 2px solid black">
+
+	<div class="container mt-3 mb-3">
+		<div class="row">
+			<div class="col-md-4">
+				<img class="container span " style="border: 2px solid black" src="{{ brand.image }}">
+			</div>
+			<div class="col-md-8">
+				<table class="table">
+					<tr>
+						<th colspan="2" class="bg-success text-warning text-center h2">{{ brand.name }}</th>
+					</tr>
+					<tr>
+						<th class="bg-light col-md-3">ID</th>
+						<td class="col-md-9">
+							{{ brand.id }}
+						</td>
+					</tr>
+                    <tr>
+						<th class="text text-success">Product(s): </th>
+                        {% if brand.products != null %}
+                            <td>
+                                {% for product in brand.products %}
+                             <li>
+                                <a class="text-danger"href="{{ path('view_product_detail', {'id':product.id })}}">
+                                    {{ product.name }}
+                                </a>
+                             </li>
+                                {% endfor %}
+                            </td>
+                        {% else %}
+								N/A
+					    {% endif %}
+					</tr>
+				</table>
+            </div>
+		</div>
+	</div>
+
+            </div>
+{% endblock %}
