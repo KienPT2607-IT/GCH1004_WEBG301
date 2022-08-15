@@ -3,19 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Product;
-use App\Form\ProductEditType;
 use App\Form\ProductType;
+use App\Form\ProductEditType;
 use App\Repository\ProductRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/product')]
 class ProductController extends AbstractController
 {
-    // #[IsGranted("ROLE_PRD_ADMIN")]
-    #[Route('/view/all', name: 'ad_view_all_products')]
+    #[IsGranted("ROLE_PRD_ADMIN")]
+    #[Route('/admin/view/all', name: 'ad_view_all_products')]
     public function viewAllProduct(ProductRepository $productRepository)
     {
         $products = $productRepository->findAll();
@@ -31,7 +32,25 @@ class ProductController extends AbstractController
         );
     }
 
-    #[Route('/view/detail/{id}', name: 'view_product_detail')]
+    #[IsGranted("ROLE_STAFF")]
+    #[Route('/staff/view/all', name: 'staff_view_all_products')]
+    public function staffViewAllProduct(ProductRepository $productRepository)
+    {
+        $products = $productRepository->findAll();
+        if ($products == null) {
+            $this->addFlash('error', 'Loading products failed!');
+            return $this->redirectToRoute('ad_view_all_products');
+        }
+        return $this->render(
+            'product/staff_index.html.twig',
+            [
+                'products' => $products
+            ]
+        );
+    }
+
+    #[IsGranted("ROLE_PRD_ADMIN")]
+    #[Route('/admin/view/detail/{id}', name: 'ad_view_product_detail')]
     public function viewProductDetail($id, ProductRepository $productRepository)
     {
         $product = $productRepository->find($id);
@@ -47,8 +66,25 @@ class ProductController extends AbstractController
         );
     }
 
-    // #[IsGranted("ROLE_PRD_ADMIN")]
-    #[Route('/delete/{id}', name: 'ad_delete_product')]
+    #[IsGranted("ROLE_STAFF")]
+    #[Route('/staff/view/detail/{id}', name: 'staff_view_product_detail')]
+    public function staffViewVProductDetail($id, ProductRepository $productRepository)
+    {
+        $product = $productRepository->find($id);
+        if ($product == null) {
+            $this->addFlash('error', 'Loading product failed!');
+            return $this->redirectToRoute('ad_view_all_products');
+        }
+        return $this->render(
+            'product/staff_detail.html.twig',
+            [
+                'product' => $product
+            ]
+        );
+    }
+
+    #[IsGranted("ROLE_PRD_ADMIN")]
+    #[Route('/admin/delete/{id}', name: 'ad_delete_product')]
     public function bookDelete($id, ManagerRegistry $managerRegistry)
     {
         $product = $managerRegistry->getRepository(Product::class)->find($id);
@@ -64,8 +100,8 @@ class ProductController extends AbstractController
         return $this->redirectToRoute('ad_view_all_products');
     }
 
-    // #[IsGranted("ROLE_PRD_ADMIN")]
-    #[Route('/add', name: 'ad_add_product')]
+    #[IsGranted("ROLE_PRD_ADMIN")]
+    #[Route('/admin/add', name: 'ad_add_product')]
     public function bookAdd(Request $request)
     {
         $product = new Product;
@@ -86,8 +122,8 @@ class ProductController extends AbstractController
         );
     }
 
-    // #[IsGranted("ROLE_PRD_ADMIN")]
-    #[Route('/edit/{id}', name: 'ad_edit_product')]
+    #[IsGranted("ROLE_PRD_ADMIN")]
+    #[Route('/admin/edit/{id}', name: 'ad_edit_product')]
     public function bookEdit($id, Request $request)
     {
         $product = $this->getDoctrine()->getRepository(Product::class)->find($id);
@@ -112,7 +148,8 @@ class ProductController extends AbstractController
         );
     }
 
-    #[Route('/raise/product/{id}', name: 'ad_raise_product')]
+    #[IsGranted("ROLE_PRD_ADMIN")]
+    #[Route('/admin/raise/product/{id}', name: 'ad_raise_product')]
     public function raiseNumbOfProducts($id, Request $request, ProductRepository $productRepository)
     {
         $product = $productRepository->find($id);
@@ -133,5 +170,29 @@ class ProductController extends AbstractController
         $manager->flush();
         $this->addFlash('success', 'Raised Successfully !');
         return $this->redirectToRoute("ad_view_all_products");
+    }
+
+    #[IsGranted("ROLE_STAFF")]
+    #[Route('/staff/take/product/{id}', name: 'staff_take_product')]
+    public function takeNumbOfProducts($id, Request $request, ProductRepository $productRepository)
+    {
+        $product = $productRepository->find($id);
+        if ($product == null) {
+            $this->addFlash('error', 'Product not found!');
+            return $this->redirectToRoute('staff_view_all_products');
+        }
+        $numberTaken = $request->get('numb_taken');
+        if ($numberTaken == null) {
+            $message = 'Take ' . $product->getName() . ' failed!';
+            $this->addFlash('error', $message);
+            return $this->redirectToRoute("staff_view_all_products");
+        }
+        $after = $product->getRemain() - $numberTaken;
+        $product->setRemain($after);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($product);
+        $manager->flush();
+        $this->addFlash('success', 'Taken Successfully !');
+        return $this->redirectToRoute("staff_view_all_products");
     }
 }
