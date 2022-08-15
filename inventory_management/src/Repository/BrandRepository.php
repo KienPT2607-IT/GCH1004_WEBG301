@@ -59,7 +59,7 @@ class BrandRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
+    
     public function findOneBySomeField($value): ?Brand
     {
         return $this->createQueryBuilder('b')
@@ -69,5 +69,4 @@ class BrandRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
-    */
 }

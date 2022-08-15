@@ -61,25 +61,4 @@ class CategoryRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
     }
-    
-    public function sortCategoryAsc()
-    {
-        return $this->createQueryBuilder('category')
-            ->orderBy('category.id', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    /**
-     * @return category[]  
-     */
-    public function sortCategoryDesc()
-    {
-        return $this->createQueryBuilder('category')
-              ->orderBy('category.id', 'DESC')
-              ->getQuery()
-              ->getResult()
-          ;
-    }
 }
