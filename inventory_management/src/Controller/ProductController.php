@@ -21,7 +21,7 @@ class ProductController extends AbstractController
     {
         $products = $productRepository->findAll();
         if ($products == null) {
-            $this->addFlash('error', 'Loading products failed!');
+            $this->addFlash('error', 'No product found!');
             return $this->redirectToRoute('ad_view_all_products');
         }
         return $this->render(
@@ -38,7 +38,7 @@ class ProductController extends AbstractController
     {
         $products = $productRepository->findAll();
         if ($products == null) {
-            $this->addFlash('error', 'Loading products failed!');
+            $this->addFlash('error', 'No product found!');
             return $this->redirectToRoute('ad_view_all_products');
         }
         return $this->render(
