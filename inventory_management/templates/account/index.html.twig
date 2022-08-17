@@ -35,10 +35,7 @@
 						<td class="text text-success text-center">{{ account.id }}</td>
 						<td class="text text-success text-center">{{ account.username }}</td>
 						<td class="text-center ">
-							<a href="#">
-								<img src="{{ asset('images/actions/edit.png')}}" width="50" height="50">
-							</a>
-							<a href="#" onclick="return confirm('Are you sure to delete this brand ?');">
+							<a href="{{path('account_delete', {'id': account.id})}}" onclick="return confirm('Are you sure to delete this account ?');">
 								<img src="{{ asset('images/actions/delete.gif')}}" width="50" height="50">
 							</a>
 						</td>
