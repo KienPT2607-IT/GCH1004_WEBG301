@@ -52,8 +52,9 @@
 								{% if product.remain > 0 %}
 									<div class="card-footer">
 										<form action="{{ path('staff_take_product') }}" method="post">
-											<input class="form-group mb-3" type="number" name="quantity" min="1" max="{{ product.remain }}">
+											<input class="form-group mb-3" type="number" name="numb_taken" min="1" max="{{ product.remain }}">
 											<input type="hidden" name="id" value="{{ product.id }}">
+											<input type="hidden" name="user_id" value="{{ app.user.id }}">
 											<input class="btn btn-outline-success" type="submit" value="Check out"/>
 										</form>
 									</div>

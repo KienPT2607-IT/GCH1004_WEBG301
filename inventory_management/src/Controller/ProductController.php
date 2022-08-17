@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Entity\Record;
 use App\Form\ProductType;
 use App\Form\ProductEditType;
+use App\Repository\AccountRepository;
 use App\Repository\ProductRepository;
+use App\Repository\RecordRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -168,7 +171,7 @@ class ProductController extends AbstractController
 
     #[IsGranted("ROLE_STAFF")]
     #[Route('/staff/take/product', name: 'staff_take_product')]
-    public function takeNumbOfProducts(Request $request, ProductRepository $productRepository)
+    public function takeNumbOfProducts(Request $request, ProductRepository $productRepository, AccountRepository $accountRepository)
     {
         $product = $productRepository->find($request->get('id'));
         if ($product == null) {
@@ -180,12 +183,26 @@ class ProductController extends AbstractController
             $this->addFlash('error', 'Take ' . $product->getName() . ' failed!');
             return $this->redirectToRoute("staff_view_all_products");
         }
+        $account = $accountRepository->find($request->get('user_id'));
+        $this->saveRecord($account, $product, $numberTaken);
         $product->setRemain($product->getRemain() - $numberTaken);
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($product);
         $manager->flush();
         $this->addFlash('success', 'Taken Successfully !');
         return $this->redirectToRoute("staff_view_all_products");
+    }
+
+    private function saveRecord($user, $productId, $quantity)
+    {
+        $record = new Record;
+        $record->setUsename($user)
+            ->setProduct($productId)
+            ->setQuantity($quantity)
+            ->setDate(\DateTime::createFromFormat('Y-m-d', date('Y-m-d')));
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($record);
+        $manager->flush();
     }
 
     #[IsGranted("ROLE_PRD_ADMIN")]
