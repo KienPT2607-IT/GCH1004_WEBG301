@@ -95,6 +95,10 @@ class ProductController extends AbstractController
             $this->addFlash('error', 'Loading product failed!');
             return $this->redirectToRoute('ad_view_all_products');
         }
+        if (count($product->getRecords()) > 0) {
+            $this->addFlash('error', 'Cannot delete this product because it is mapped in records!!');
+            return $this->redirectToRoute('ad_view_all_products');
+        }
         $manager = $managerRegistry->getManager();
         $manager->remove($product);
         $manager->flush();
