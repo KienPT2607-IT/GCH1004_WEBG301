@@ -63,7 +63,7 @@ class CountryController extends AbstractController
     #[Route('/add', name: 'add_country')]
     public function add(Request $request)
     {
-        $country = new country;
+        $country = new Country;
         $form = $this->createForm(CountryType::class, $country);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
