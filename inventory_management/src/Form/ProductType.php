@@ -3,15 +3,16 @@
 namespace App\Form;
 
 use App\Entity\Brand;
-use App\Entity\Category;
+use App\Entity\Country;
 use App\Entity\Product;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class ProductType extends AbstractType
 {
@@ -77,7 +78,22 @@ class ProductType extends AbstractType
                     'multiple' => false,
                     'expanded' => false
                 ]
-            );
+            )
+
+            ->add(
+                'country',
+                EntityType::class,
+                [
+                    'required' => true,
+                    'label' => 'Coutry',
+                    'class' => Country::class,
+                    'choice_label' => 'name',
+                    'multiple' => false,
+                    'expanded' => false
+                ]
+            ); 
+
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

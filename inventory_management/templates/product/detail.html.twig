@@ -53,6 +53,17 @@
 							{% endif %}
 						</td>
 					</tr>
+<tr>
+	<th class="bg-light col-md-3">Country</th>
+	<td class="col-md-9">
+		{% if product.countries != null %}
+			<a href="">{{ product.countries.name }}</a>
+		{% else %}
+			N/A
+		{% endif %}
+	</td>
+</tr>
+
 					<tr>
 						<th class="bg-light col-md-3">Actions</th>
 						<td>

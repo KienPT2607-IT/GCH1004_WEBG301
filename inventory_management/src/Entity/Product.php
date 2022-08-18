@@ -36,6 +36,9 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Record::class)]
     private $records;
 
+    #[ORM\ManyToOne(targetEntity: Country::class, inversedBy: 'products')]
+    private $country;
+
     public function __construct()
     {
         $this->records = new ArrayCollection();
@@ -144,6 +147,18 @@ class Product
                 $record->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }

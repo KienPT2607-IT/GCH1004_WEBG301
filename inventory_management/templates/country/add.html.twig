@@ -1,0 +1,23 @@
+{% form_theme countriesForm 'bootstrap_5_layout.html.twig' %}
+
+{% extends "base.html.twig" %}
+
+{% block body %}
+	<style>
+		body {
+			background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3MkVgkPVjPK6PIJbaCPLT3O-hnYB9xdACvQ&usqp=CAU");
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+	</style>
+	<div class="container col-md-6 text-center mt-3">
+		<h3 class="alert alert-primary mb-3">Add country</h3>
+		<div class="card alert alert-primary mb-3">
+			{{ form_start (countriesForm) }}
+			{{ form_widget (countriesForm) }}
+			<input class="btn btn-success" type="submit" value="Submit"/>
+			{{ form_end (countriesForm) }}
+		</div>
+	</div>
+{% endblock %}
+
