@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 {% block title %}
-	countries detail
+	country detail
 {% endblock %}
 {% block body %}
 	<style>
@@ -15,25 +15,25 @@
 		<div class="container mt-3 mb-3">
 			<div class="row">
 				<div class="col-md-4">
-					<img class="container span " style="border: 2px solid black" src="{{ countries.image }}">
+					<img class="container span " style="border: 2px solid black" src="{{ country.image }}">
 				</div>
 				<div class="col-md-8">
 					<table class="table">
 						<tr>
-							<th colspan="2" class="bg-success text-warning text-center h2">{{ countries.name }}</th>
+							<th colspan="2" class="bg-success text-warning text-center h2">{{ country.name }}</th>
 						</tr>
 						<tr>
 							<th class="text-success">ID</th>
 							<td class="col-md-9">
-								{{ countries.id }}
+								{{ country.id }}
 							</td>
 						</tr>
 						<tr>
 							<th class="text text-success">Product(s):
 							</th>
-							{% if countries.products != null %}
+							{% if country.products != null %}
 								<td>
-									{% for product in countries.products %}
+									{% for product in country.products %}
 										<li>
 											<a class="text-danger" href="{{ path('ad_view_product_detail', {'id':product.id })}}">
 												{{ product.name }}
@@ -49,10 +49,10 @@
 						<tr>
 							<th class="text-success">Actions</th>
 							<td>
-								<a href="{{path('edit_countries', {'id':countries.id})}}">
+								<a href="{{path('edit_country', {'id':country.id})}}">
 									<img src="{{asset('images/actions/edit.png')}}" alt="" width="30" height="30">
 								</a>
-								<a href="{{path('ad_delete_product', {'id':countries.id})}}" onclick="return confirm('Delete this product?');" onclick="return confirm('Are you sure to delete ?');">
+								<a href="{{path('ad_delete_product', {'id':country.id})}}" onclick="return confirm('Delete this product?');" onclick="return confirm('Are you sure to delete ?');">
 
 									<img src="{{asset('/images/actions/delete.gif')}}" alt="" width="30" height="30">
 								</a>

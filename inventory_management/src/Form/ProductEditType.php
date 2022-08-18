@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Brand;
+use App\Entity\Country;
 use App\Entity\Product;
 use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
@@ -65,7 +66,20 @@ class ProductEditType extends AbstractType
                     'multiple' => false,
                     'expanded' => false
                 ]
-            );
+            )
+            ->add(
+                'country',
+                EntityType::class,
+                [
+                    'required' => true,
+                    'label' => 'Country',
+                    'class' => Country::class,
+                    'choice_label' => 'name',
+                    'multiple' => false,
+                    'expanded' => false
+                ]
+            )
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
