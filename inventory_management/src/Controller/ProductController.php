@@ -88,7 +88,7 @@ class ProductController extends AbstractController
 
     #[IsGranted("ROLE_PRD_ADMIN")]
     #[Route('/admin/delete/{id}', name: 'ad_delete_product')]
-    public function bookDelete($id, ManagerRegistry $managerRegistry)
+    public function deleteProduct($id, ManagerRegistry $managerRegistry)
     {
         $product = $managerRegistry->getRepository(Product::class)->find($id);
         if ($product == null) {
@@ -109,7 +109,7 @@ class ProductController extends AbstractController
 
     #[IsGranted("ROLE_PRD_ADMIN")]
     #[Route('/admin/add', name: 'ad_add_product')]
-    public function bookAdd(Request $request)
+    public function addNewProduct(Request $request)
     {
         $product = new Product;
         $form = $this->createForm(ProductType::class, $product);
@@ -131,7 +131,7 @@ class ProductController extends AbstractController
 
     #[IsGranted("ROLE_PRD_ADMIN")]
     #[Route('/admin/edit/{id}', name: 'ad_edit_product')]
-    public function bookEdit($id, Request $request)
+    public function editProduct($id, Request $request)
     {
         $product = $this->getDoctrine()->getRepository(Product::class)->find($id);
         if ($product == null) {
